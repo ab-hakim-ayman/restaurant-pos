@@ -3,7 +3,8 @@ import { Model } from 'mongoose';
 
 export interface TUser {
 	_id?: string;
-	name: string;
+	restaurant_name: string;
+	owner_name: string;
 	email: string;
 	password: string;
 	status?: 'active' | 'blocked';
