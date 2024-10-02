@@ -49,7 +49,7 @@ const getUsers: RequestHandler = catchAsync(async (req: Request, res: Response) 
 });
 
 const updateUser: RequestHandler = catchAsync(async (req: Request, res: Response) => {
-	const result = await UserServices.updateUser(req.params.id, req.body);
+	const result = await UserServices.updateUser(req?.userData?._id, req.body);
 
 	sendResponse(res, {
 		statusCode: httpStatus.OK,
