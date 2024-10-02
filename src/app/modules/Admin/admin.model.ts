@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 import { Schema, model } from 'mongoose';
 import config from '../../config';
-import { AdminModel, TAdmin } from './admin.interface';
+import { AdminModel, TAdmin } from './admin.interfaces';
 
 const adminSchema = new Schema<TAdmin, AdminModel>(
 	{
