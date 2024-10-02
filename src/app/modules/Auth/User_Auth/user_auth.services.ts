@@ -1,9 +1,9 @@
 import httpStatus from 'http-status';
-import config from '../../config';
-import AppError from '../../errors/AppError';
-import { User } from '../User/user.model';
-import { TLogin } from './user_auth.interfaces';
-import { createToken } from './user_auth.utils';
+import config from '../../../config';
+import AppError from '../../../errors/AppError';
+import { User } from '../../User/user.model';
+import { TLogin } from '../auth.interfaces';
+import { createToken } from '../auth.utils';
 
 const loginUser = async (payload: TLogin) => {
 	const { email, password } = payload;
@@ -12,7 +12,7 @@ const loginUser = async (payload: TLogin) => {
 	const user = await User.findUserByEmail(email);
 
 	if (!user) {
-		throw new AppError(httpStatus.FORBIDDEN, 'Invalid credentials!');
+		throw new AppError(httpStatus.NOT_FOUND, 'User not found! Please register first.');
 	}
 
 	// check if the user is blocked
@@ -41,8 +41,9 @@ const loginUser = async (payload: TLogin) => {
 	};
 
 	const accessToken = createToken(jwtPayload, config.jwt_secret, config.jwt_expiration);
+	const userWithoutPassword = await User.findById(user._id);
 
-	return accessToken;
+	return { accessToken, user: userWithoutPassword };
 };
 
 const UserAuthServices = {

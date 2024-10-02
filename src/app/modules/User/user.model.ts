@@ -74,7 +74,7 @@ userSchema.statics.isPasswordMatched = async function (plainPassword: string, ha
 };
 
 userSchema.statics.findUserByEmail = async function (email: string) {
-	const user = await this.findOne({ email });
+	const user = await this.findOne({ email }).select('+password');
 	if (!user) {
 		throw new AppError(httpStatus.NOT_FOUND, 'User not found!');
 	}
