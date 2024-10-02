@@ -3,9 +3,11 @@ import { Model } from 'mongoose';
 
 export interface TUser {
 	_id?: string;
-	restaurant_name: string;
-	owner_name: string;
+	company_name: string;
 	email: string;
+	phone: string;
+	address: string;
+	logo: string;
 	password: string;
 	status?: 'active' | 'blocked';
 	role: 'user';

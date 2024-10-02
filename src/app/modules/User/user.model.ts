@@ -6,23 +6,31 @@ import { TUser, UserModel } from './user.interfaces';
 
 const userSchema = new Schema<TUser, UserModel>(
 	{
-		restaurant_name: {
+		company_name: {
 			type: String,
 			required: [true, 'Restaurant name is required!']
-		},
-		owner_name: {
-			type: String,
-			required: [true, 'Owner name is required!']
 		},
 		email: {
 			type: String,
 			required: [true, 'Email is required!'],
 			unique: true
 		},
+		phone: {
+			type: String,
+			required: [true, 'Phone number is required!']
+		},
 		password: {
 			type: String,
 			required: [true, 'Password is required!'],
 			select: false
+		},
+		address: {
+			type: String,
+			required: [true, 'Address is required!']
+		},
+		logo: {
+			type: String,
+			required: [true, 'Logo is required!']
 		},
 		role: {
 			type: String,
@@ -32,6 +40,10 @@ const userSchema = new Schema<TUser, UserModel>(
 			type: String,
 			enum: ['active', 'blocked'],
 			default: 'active'
+		},
+		isDeleted: {
+			type: Boolean,
+			default: false
 		}
 	},
 	{
