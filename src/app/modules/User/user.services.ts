@@ -49,6 +49,7 @@ const deleteUser = async (id: string) => {
   return deleted;
 };
 
+
 const UserServices = {
   registerUser,
   toggleUserStatus,
