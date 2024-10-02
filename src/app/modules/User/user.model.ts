@@ -64,7 +64,7 @@ userSchema.pre('save', async function (next) {
 userSchema.statics.isUserExists = async function (id: string) {
 	const user = await this.findById(id).select('+password');
 	if (!user) {
-		throw new AppError(httpStatus.NOT_FOUND, 'User not found');
+		throw new AppError(httpStatus.NOT_FOUND, 'User not found!');
 	}
 	return user;
 };
@@ -76,7 +76,7 @@ userSchema.statics.isPasswordMatched = async function (plainPassword: string, ha
 userSchema.statics.findUserByEmail = async function (email: string) {
 	const user = await this.findOne({ email });
 	if (!user) {
-		throw new AppError(httpStatus.NOT_FOUND, 'User not found');
+		throw new AppError(httpStatus.NOT_FOUND, 'User not found!');
 	}
 	return user;
 };
