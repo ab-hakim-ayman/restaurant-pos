@@ -11,7 +11,7 @@ export interface TUser {
 	password: string;
 	status?: 'active' | 'blocked';
 	role: 'user';
-	isDeleted: boolean;
+	isDeleted?: boolean;
 }
 
 export interface UserModel extends Model<TUser> {
