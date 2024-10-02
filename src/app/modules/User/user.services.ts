@@ -1,7 +1,7 @@
 import { TUser } from './user.interfaces';
 import { User } from './user.model';
 
-const createUser = async (user: TUser) => {
+const registerUser = async (user: TUser) => {
 	const newUser = await User.create(user);
 	return newUser;
 };
@@ -41,8 +41,8 @@ const deleteUser = async (id: string) => {
 	return deleted;
 };
 
-const userServices = {
-	createUser,
+const UserServices = {
+	registerUser,
 	toggleUserStatus,
 	getUser,
 	getUsers,
@@ -50,4 +50,4 @@ const userServices = {
 	deleteUser
 };
 
-export default userServices;
+export default UserServices;

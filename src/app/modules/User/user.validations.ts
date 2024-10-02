@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-const createUserValidation = z.object({
+const registerUserValidation = z.object({
 	body: z.object({
 		company_name: z
 			.string({
@@ -38,30 +38,46 @@ const createUserValidation = z.object({
 const updateUserValidation = z.object({
 	body: z.object({
 		company_name: z
-			.string({
-				required_error: 'Company name is required!'
-			})
+			.string()
 			.min(3, {
 				message: 'Company name must be at least 3 characters long!'
-			}),
-		email: z.string().email({
-			message: 'Invalid email address!'
-		}),
-		phone: z.string({
-			required_error: 'Phone number is required!'
-		}),
-		address: z.string({
-			required_error: 'Address is required!'
-		}),
-		logo: z.string().url({
-			message: 'Invalid URL!'
-		})
+			})
+			.optional(),
+		email: z
+			.string()
+			.email({
+				message: 'Invalid email address!'
+			})
+			.optional(),
+		phone: z
+			.string({
+				required_error: 'Phone number is required!'
+			})
+			.optional(),
+		address: z
+			.string({
+				required_error: 'Address is required!'
+			})
+			.optional(),
+		logo: z
+			.string()
+			.url({
+				message: 'Invalid URL!'
+			})
+			.optional()
 	})
 });
 
-const UserValidation = {
-	createUserValidation,
-	updateUserValidation
+const toggleUserStatusValidation = z.object({
+	body: z.object({
+		status: z.enum(['active', 'blocked'])
+	})
+});
+
+const UserValidations = {
+	registerUserValidation,
+	updateUserValidation,
+	toggleUserStatusValidation
 };
 
-export default UserValidation;
+export default UserValidations;
