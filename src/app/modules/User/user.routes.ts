@@ -15,11 +15,7 @@ router.put('/:id', validateRequest(UserValidations.updateUserValidation), UserCo
 
 router.delete('/:id', UserControllers.deleteUser);
 
-router.put(
-	'/toggle-status/:id',
-	validateRequest(UserValidations.toggleUserStatusValidation),
-	UserControllers.toggleUserStatus
-);
+router.put('/toggle-status/:id', UserControllers.toggleUserStatus);
 
 const UserRoutes = router;
 

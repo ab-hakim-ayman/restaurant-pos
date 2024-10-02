@@ -66,7 +66,7 @@ userSchema.statics.isUserExists = async function (id: string) {
 	if (!user) {
 		throw new AppError(httpStatus.NOT_FOUND, 'User not found');
 	}
-	return;
+	return user;
 };
 
 userSchema.statics.isPasswordMatched = async function (plainPassword: string, hashedPassword: string) {

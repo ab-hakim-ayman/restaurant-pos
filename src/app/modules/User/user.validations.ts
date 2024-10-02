@@ -68,16 +68,9 @@ const updateUserValidation = z.object({
 	})
 });
 
-const toggleUserStatusValidation = z.object({
-	body: z.object({
-		status: z.enum(['active', 'blocked'])
-	})
-});
-
 const UserValidations = {
 	registerUserValidation,
-	updateUserValidation,
-	toggleUserStatusValidation
+	updateUserValidation
 };
 
 export default UserValidations;
