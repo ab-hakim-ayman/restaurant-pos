@@ -1,7 +1,5 @@
 import bcrypt from "bcrypt";
-import httpStatus from "http-status";
 import { Schema, model } from "mongoose";
-import AppError from "../../errors/AppError";
 import { TUser, UserModel } from "./user.interfaces";
 
 const userSchema = new Schema<TUser, UserModel>(
@@ -38,8 +36,8 @@ const userSchema = new Schema<TUser, UserModel>(
     },
     status: {
       type: String,
-      enum: ["active", "blocked"],
-      default: "active",
+      enum: ["pending", "approved", "paused", "rejected", "blocked"],
+      default: "pending",
     },
     isDeleted: {
       type: Boolean,
@@ -62,11 +60,7 @@ userSchema.pre("save", async function (next) {
 });
 
 userSchema.statics.isUserExists = async function (id: string) {
-  const user = await this.findById(id).select("+password");
-  if (!user) {
-    throw new AppError(httpStatus.NOT_FOUND, "User not found!");
-  }
-  return user;
+  return await this.findById(id).select("+password");
 };
 
 userSchema.statics.isPasswordMatched = async function (
@@ -77,11 +71,7 @@ userSchema.statics.isPasswordMatched = async function (
 };
 
 userSchema.statics.findUserByEmail = async function (email: string) {
-  const user = await this.findOne({ email }).select("+password");
-  if (!user) {
-    throw new AppError(httpStatus.NOT_FOUND, "User not found!");
-  }
-  return user;
+  return await this.findOne({ email }).select("+password");
 };
 
 export const User = model<TUser, UserModel>("User", userSchema);

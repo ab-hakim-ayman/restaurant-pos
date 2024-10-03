@@ -11,6 +11,7 @@ const origin = [
   "https://pos-restaurant.vercel.app",
   "https://pos-restaurant-dashboard.vercel.app",
 ];
+
 // parsers
 app.use(express.json());
 app.use(

@@ -6,9 +6,12 @@ const registerUser = async (user: TUser) => {
   return newUser;
 };
 
-const toggleUserStatus = async (id: string) => {
+const changeUserStatus = async (id: string, status: string) => {
   const user = await User.isUserExists(id);
-  const status = user?.status === "active" ? "blocked" : "active";
+
+  if (!user) {
+    throw new Error("User not found");
+  }
 
   const updatedUser = await User.findByIdAndUpdate(
     id,
@@ -49,10 +52,9 @@ const deleteUser = async (id: string) => {
   return deleted;
 };
 
-
 const UserServices = {
   registerUser,
-  toggleUserStatus,
+  changeUserStatus,
   getUser,
   getUsers,
   updateUser,

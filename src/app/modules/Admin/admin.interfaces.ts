@@ -2,7 +2,7 @@
 import { Model } from "mongoose";
 
 export type TAdmin = {
-  id: number;
+  _id?: string;
   name: string;
   email: string;
   password: string;

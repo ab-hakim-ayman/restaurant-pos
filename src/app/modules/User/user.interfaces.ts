@@ -1,6 +1,14 @@
 /* eslint-disable no-unused-vars */
 import { Model } from "mongoose";
 
+export enum UserStatus {
+  Pending = "pending",
+  Approved = "approved",
+  Paused = "paused",
+  Rejected = "rejected",
+  Blocked = "blocked",
+}
+
 export interface TUser {
   _id?: string;
   company_name: string;
@@ -9,7 +17,7 @@ export interface TUser {
   address: string;
   logo: string;
   password: string;
-  status?: "active" | "blocked";
+  status?: UserStatus;
   role: "user";
   isDeleted?: boolean;
 }
