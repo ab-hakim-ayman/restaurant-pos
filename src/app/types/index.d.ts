@@ -1,10 +1,10 @@
-import { JwtPayload } from 'jsonwebtoken';
+import { JwtPayload } from "jsonwebtoken";
 
 declare global {
-	namespace Express {
-		interface Request {
-			adminData?: JwtPayload;
-			userData?: JwtPayload;
-		}
-	}
+  namespace Express {
+    interface Request {
+      adminData?: JwtPayload;
+      userData?: JwtPayload;
+    }
+  }
 }
