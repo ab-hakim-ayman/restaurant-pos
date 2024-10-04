@@ -9,7 +9,6 @@ const createCategory = async (category: TCategory) => {
 };
 
 const getCategories = async (userId: string, searchQuery: string = "") => {
-  console.log(searchQuery);
   const queryCondition = {
     user: userId,
     title: { $regex: searchQuery, $options: "i" },
