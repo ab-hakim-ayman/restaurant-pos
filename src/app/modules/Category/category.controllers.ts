@@ -27,7 +27,10 @@ const getCategories: RequestHandler = catchAsync(
     const userId = req.userData?._id;
     const searchQuery = req.query?.search;
 
-    const result = await CategoryServices.getCategories(userId, searchQuery as string);
+    const result = await CategoryServices.getCategories(
+      userId,
+      searchQuery as string,
+    );
 
     sendResponse(res, {
       statusCode: httpStatus.OK,

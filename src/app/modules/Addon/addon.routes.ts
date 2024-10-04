@@ -8,21 +8,21 @@ const router = express.Router();
 
 router.post(
   "/create",
-  AuthGuard('user'),
+  AuthGuard("user"),
   validateRequest(AddonValidations.createAddonValidation),
   AddonControllers.createAddon,
 );
 
-router.get("/", AuthGuard('user'), AddonControllers.getAddons);
+router.get("/", AuthGuard("user"), AddonControllers.getAddons);
 
 router.put(
   "/:id",
-  AuthGuard('user'),
+  AuthGuard("user"),
   validateRequest(AddonValidations.updateAddonValidation),
   AddonControllers.updateAddon,
 );
 
-router.delete("/:id", AuthGuard('user'), AddonControllers.deleteAddon);
+router.delete("/:id", AuthGuard("user"), AddonControllers.deleteAddon);
 
 const AddonRoutes = router;
 

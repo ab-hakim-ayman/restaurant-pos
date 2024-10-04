@@ -31,10 +31,7 @@ const updateCategory = async (
   );
 
   if (!updatedCategory) {
-    throw new AppError(
-      httpStatus.NOT_FOUND,
-      "Category not found!",
-    );
+    throw new AppError(httpStatus.NOT_FOUND, "Category not found!");
   }
 
   return updatedCategory;
@@ -47,10 +44,7 @@ const deleteCategory = async (userId: string, ctgId: string) => {
   });
 
   if (!deletedCategory) {
-    throw new AppError(
-      httpStatus.NOT_FOUND,
-      "Category not found!",
-    );
+    throw new AppError(httpStatus.NOT_FOUND, "Category not found!");
   }
 
   return deletedCategory;
