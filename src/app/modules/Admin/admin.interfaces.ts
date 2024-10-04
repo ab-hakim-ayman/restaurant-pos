@@ -7,6 +7,8 @@ export type TAdmin = {
   email: string;
   password: string;
   role: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 };
 
 export interface AdminModel extends Model<TAdmin> {
