@@ -1,6 +1,20 @@
 import bcrypt from "bcrypt";
 import { Schema, model } from "mongoose";
-import { TUser, UserModel } from "./user.interfaces";
+import { UserStatusArray } from "./user.constant";
+import { TLogo, TUser, UserModel } from "./user.interfaces";
+
+const LogoSchema = new Schema<TLogo>({
+  url: {
+    type: String,
+    required: [true, "Logo URL is required!"],
+  },
+  public_id: {
+    type: String,
+    required: [true, "Logo public ID is required!"],
+  },
+},{
+  _id: false
+});
 
 const userSchema = new Schema<TUser, UserModel>(
   {
@@ -26,17 +40,14 @@ const userSchema = new Schema<TUser, UserModel>(
       type: String,
       required: [true, "Address is required!"],
     },
-    logo: {
-      type: String,
-      required: [true, "Logo is required!"],
-    },
+    logo: LogoSchema,
     role: {
       type: String,
       default: "user",
     },
     status: {
       type: String,
-      enum: ["pending", "approved", "paused", "rejected", "blocked"],
+      enum: UserStatusArray,
       default: "pending",
     },
     isDeleted: {

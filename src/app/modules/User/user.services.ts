@@ -1,3 +1,4 @@
+import { UserStatusArray } from "./user.constant";
 import { TUser } from "./user.interfaces";
 import { User } from "./user.model";
 
@@ -11,6 +12,12 @@ const changeUserStatus = async (id: string, status: string) => {
 
   if (!user) {
     throw new Error("User not found");
+  }
+
+  const isStatusValid = Object.values(UserStatusArray).includes(status);
+
+  if (!isStatusValid) {
+    throw new Error("Invalid user status");
   }
 
   const updatedUser = await User.findByIdAndUpdate(
@@ -27,9 +34,22 @@ const getUser = async (id: string) => {
   return user;
 };
 
-const getUsers = async () => {
-  const users = await User.find();
+const getUsers = async (searchQuery:Record<string, unknown>) => {
+  const searchFields = ["name", "email", "phone", "address", "status"];
+  const { search, status } = searchQuery;
 
+  const filterQuery:Record<string, unknown> = {};
+
+  if (status) {
+    filterQuery.status = status;
+  }
+  if (search) {
+    filterQuery.$or = searchFields.map((field) => ({
+      [field]: { $regex: search, $options: "i" },
+    }));
+  }
+
+  const users = await User.find(filterQuery);
   return users;
 };
 

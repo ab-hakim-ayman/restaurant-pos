@@ -12,7 +12,9 @@ router.post(
   UserControllers.registerUser,
 );
 
-router.get("/", AuthGuard("admin"), UserControllers.getUsers);
+router.get("/",
+  //  AuthGuard("admin"),
+    UserControllers.getUsers);
 
 router.get("/:id", UserControllers.getUser);
 
@@ -26,9 +28,9 @@ router.put(
 router.delete("/:id", AuthGuard("admin"), UserControllers.deleteUser);
 
 router.put(
-  "/toggle-status/:id",
+  "/change-status/:id/:status",
   AuthGuard("admin"),
-  UserControllers.toggleUserStatus,
+  UserControllers.changeUserStatus,
 );
 
 const UserRoutes = router;

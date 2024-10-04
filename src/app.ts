@@ -8,8 +8,8 @@ const app: Application = express();
 const origin = [
   "http://localhost:5173",
   "http://localhost:3000",
-  "https://pos-restaurant.vercel.app",
-  "https://pos-restaurant-dashboard.vercel.app",
+  "https://aic-pos-restaurant.vercel.app",
+  "https://aic-pos-restaurant-dashboard.vercel.app",
 ];
 
 // parsers

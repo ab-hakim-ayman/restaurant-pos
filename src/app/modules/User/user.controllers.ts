@@ -18,9 +18,12 @@ const registerUser: RequestHandler = catchAsync(
   },
 );
 
-const toggleUserStatus: RequestHandler = catchAsync(
+const changeUserStatus: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
-    const result = await UserServices.toggleUserStatus(req.params.id);
+    const result = await UserServices.changeUserStatus(
+      req.params.id,
+      req.params.status,
+    );
 
     sendResponse(res, {
       statusCode: httpStatus.OK,
@@ -46,7 +49,7 @@ const getUser: RequestHandler = catchAsync(
 
 const getUsers: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
-    const result = await UserServices.getUsers();
+    const result = await UserServices.getUsers(req.query);
 
     sendResponse(res, {
       statusCode: httpStatus.OK,
@@ -85,7 +88,7 @@ const deleteUser: RequestHandler = catchAsync(
 
 const UserControllers = {
   registerUser,
-  toggleUserStatus,
+  changeUserStatus,
   getUser,
   getUsers,
   updateUser,
