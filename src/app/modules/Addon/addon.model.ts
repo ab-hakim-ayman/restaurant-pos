@@ -1,9 +1,5 @@
-import bcrypt from "bcrypt";
-import httpStatus from "http-status";
-import { Schema, model, Types } from "mongoose";
-import AppError from "../../errors/AppError";
-import { TAddon, AddonModel } from "./addon.interfaces";
-import { User } from "../User/user.model";
+import { model, Schema } from "mongoose";
+import { AddonModel, TAddon } from "./addon.interfaces";
 
 const addonSchema = new Schema<TAddon, AddonModel>(
   {

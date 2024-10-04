@@ -33,7 +33,7 @@ const updateCategory = async (
   if (!updatedCategory) {
     throw new AppError(
       httpStatus.NOT_FOUND,
-      "Category not found or user unauthorized to update this category.",
+      "Category not found!",
     );
   }
 
@@ -49,7 +49,7 @@ const deleteCategory = async (userId: string, ctgId: string) => {
   if (!deletedCategory) {
     throw new AppError(
       httpStatus.NOT_FOUND,
-      "Category not found or user unauthorized to delete this category.",
+      "Category not found!",
     );
   }
 

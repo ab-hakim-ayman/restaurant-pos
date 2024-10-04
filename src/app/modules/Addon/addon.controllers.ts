@@ -26,9 +26,9 @@ const createAddon: RequestHandler = catchAsync(
 const getAddons: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
     const userId = req.userData?._id;
-    const searchQuery: any = req.query?.query;
+    const searchQuery = req.query?.search;
 
-    const result = await AddonServices.getAddons(userId, searchQuery);
+    const result = await AddonServices.getAddons(userId, searchQuery as string);
 
     sendResponse(res, {
       statusCode: httpStatus.OK,

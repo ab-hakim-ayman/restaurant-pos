@@ -1,9 +1,5 @@
-import bcrypt from "bcrypt";
-import httpStatus from "http-status";
-import { Schema, model, Types } from "mongoose";
-import AppError from "../../errors/AppError";
-import { TCategory, CategoryModel } from "./category.interfaces";
-import { User } from "../User/user.model";
+import { Schema, model } from "mongoose";
+import { CategoryModel, TCategory } from "./category.interfaces";
 
 const categorySchema = new Schema<TCategory, CategoryModel>(
   {

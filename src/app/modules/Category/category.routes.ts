@@ -8,21 +8,21 @@ const router = express.Router();
 
 router.post(
   "/create",
-  AuthGuard(),
+  AuthGuard('user'),
   validateRequest(CategoryValidations.createCategoryValidation),
   CategoryControllers.createCategory,
 );
 
-router.get("/", AuthGuard(), CategoryControllers.getCategories);
+router.get("/", AuthGuard('user'), CategoryControllers.getCategories);
 
 router.put(
   "/:id",
-  AuthGuard(),
+  AuthGuard('user'),
   validateRequest(CategoryValidations.updateCategoryValidation),
   CategoryControllers.updateCategory,
 );
 
-router.delete("/:id", AuthGuard(), CategoryControllers.deleteCategory);
+router.delete("/:id", AuthGuard('user'), CategoryControllers.deleteCategory);
 
 const CategoryRoutes = router;
 
