@@ -1,14 +1,15 @@
 /* eslint-disable no-unused-vars */
 import { Date, Model, Types } from "mongoose";
 
-export interface TCategory {
+export interface TAddon {
   _id?: string;
   user: Types.ObjectId;
   title: string;
+  price: number;
   createdAt?: Date;
   updatedAt?: Date;
 }
 
-export interface CategoryModel extends Model<TCategory> {
-  isCategoryExists(id: string): Promise<TCategory | null>;
+export interface AddonModel extends Model<TAddon> {
+  isAddonExists(id: string): Promise<TAddon | null>;
 }

@@ -2,7 +2,7 @@ import { z } from "zod";
 
 const createCategoryValidation = z.object({
   body: z.object({
-    category_name: z
+    title: z
       .string({
         required_error: "Category name is required!",
       })
@@ -14,7 +14,7 @@ const createCategoryValidation = z.object({
 
 const updateCategoryValidation = z.object({
   body: z.object({
-    category_name: z
+    title: z
       .string()
       .min(3, {
         message: "Category name must be at least 3 characters long!",

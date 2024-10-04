@@ -2,18 +2,22 @@ import bcrypt from "bcrypt";
 import httpStatus from "http-status";
 import { Schema, model, Types } from "mongoose";
 import AppError from "../../errors/AppError";
-import { TCategory, CategoryModel } from "./category.interfaces";
+import { TAddon, AddonModel } from "./addon.interfaces";
 import { User } from "../User/user.model";
 
-const categorySchema = new Schema<TCategory, CategoryModel>(
+const addonSchema = new Schema<TAddon, AddonModel>(
   {
     title: {
       type: String,
-      required: [true, "Category title is required!"],
+      required: [true, "Addon title is required!"],
     },
     user: {
       type: Schema.Types.ObjectId,
       ref: "User",
+    },
+    price: {
+      type: Number,
+      required: [true, "Addon price is required!"],
     },
   },
   {
@@ -21,11 +25,8 @@ const categorySchema = new Schema<TCategory, CategoryModel>(
   },
 );
 
-categorySchema.statics.isCategoryExists = async function (id: string) {
+addonSchema.statics.isAddonExists = async function (id: string) {
   return await this.findById(id);
 };
 
-export const Category = model<TCategory, CategoryModel>(
-  "Category",
-  categorySchema,
-);
+export const Addon = model<TAddon, AddonModel>("Addon", addonSchema);

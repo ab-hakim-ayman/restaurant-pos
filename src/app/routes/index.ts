@@ -1,4 +1,5 @@
 import express from "express";
+import AddonRoutes from "../modules/Addon/addon.routes";
 import UserAuthRoutes from "../modules/Auth/User_Auth/user_auth.routes";
 import CategoryRoutes from "../modules/Category/category.routes";
 import UserRoutes from "../modules/User/user.routes";
@@ -17,6 +18,10 @@ const moduleRoutes = [
   {
     path: "/categories",
     route: CategoryRoutes,
+  },
+  {
+    path: "/addons",
+    route: AddonRoutes,
   },
 ];
 

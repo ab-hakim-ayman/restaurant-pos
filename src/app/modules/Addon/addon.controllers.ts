@@ -2,81 +2,78 @@ import { Request, RequestHandler, Response } from "express";
 import httpStatus from "http-status";
 import catchAsync from "../../utils/catchAsync";
 import sendResponse from "../../utils/sendResponse";
-import CategoryServices from "./category.services";
+import AddonServices from "./addon.services";
 
-const createCategory: RequestHandler = catchAsync(
+const createAddon: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
-    const { title } = req.body;
+    const { title, price } = req.body;
     const userId = req.userData?._id;
-    const result = await CategoryServices.createCategory({
+    const result = await AddonServices.createAddon({
       title,
+      price,
       user: userId,
     });
 
     sendResponse(res, {
       statusCode: httpStatus.OK,
       success: true,
-      message: "Category created successfully!",
+      message: "Addon created successfully!",
       data: result,
     });
   },
 );
 
-const getCategories: RequestHandler = catchAsync(
+const getAddons: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
     const userId = req.userData?._id;
     const searchQuery: any = req.query?.query;
 
-    const result = await CategoryServices.getCategories(userId, searchQuery);
+    const result = await AddonServices.getAddons(userId, searchQuery);
 
     sendResponse(res, {
       statusCode: httpStatus.OK,
       success: true,
-      message: "Categories retrieved successfully!",
+      message: "Addons retrieved successfully!",
       data: result,
     });
   },
 );
 
-const updateCategory: RequestHandler = catchAsync(
+const updateAddon: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
     const userId = req.userData?._id;
     const ctgId = req.params.id;
-    const result = await CategoryServices.updateCategory(
-      userId,
-      ctgId,
-      req.body,
-    );
+    const result = await AddonServices.updateAddon(userId, ctgId, req.body);
 
     sendResponse(res, {
       statusCode: httpStatus.OK,
       success: true,
-      message: "Category updated successfully!",
+      message: "Addon updated successfully!",
       data: result,
     });
   },
 );
 
-const deleteCategory: RequestHandler = catchAsync(
+const deleteAddon: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
     const userId = req.userData?._id;
     const ctgId = req.params.id;
-    const result = await CategoryServices.deleteCategory(userId, ctgId);
+    const result = await AddonServices.deleteAddon(userId, ctgId);
 
     sendResponse(res, {
       statusCode: httpStatus.OK,
       success: true,
-      message: "Category deleted successfully!",
+      message: "Addon deleted successfully!",
       data: result,
     });
   },
 );
 
-const CategoryControllers = {
-  createCategory,
-  getCategories,
-  updateCategory,
-  deleteCategory,
+const AddonControllers = {
+  createAddon,
+  getAddons,
+  updateAddon,
+  deleteAddon,
 };
 
-export default CategoryControllers;
+export default AddonControllers;

@@ -1,3 +1,5 @@
+import httpStatus from "http-status";
+import AppError from "../../errors/AppError";
 import { TCategory } from "./category.interfaces";
 import { Category } from "./category.model";
 
@@ -6,52 +8,56 @@ const createCategory = async (category: TCategory) => {
   return newCategory;
 };
 
-const toggleCategoryStatus = async (id: string) => {
-  const category = await Category.isCategoryExists(id);
-  const status = category?.status === "active" ? "blocked" : "active";
+const getCategories = async (userId: string, searchQuery: string = "") => {
+  const queryCondition = {
+    user: userId,
+    title: { $regex: searchQuery, $options: "i" },
+  };
 
-  const updatedCategory = await Category.findByIdAndUpdate(
-    id,
-    { status },
-    { new: true },
-  );
-  return updatedCategory;
-};
-
-const getCategory = async (id: string) => {
-  const category = await Category.isCategoryExists(id);
-
-  return category;
-};
-
-const getCategories = async () => {
-  const categories = await Category.find();
+  const categories = await Category.find(queryCondition);
 
   return categories;
 };
 
-const updateCategory = async (id: string, category: TCategory) => {
-  // separate the password from the category object. We don't want to update the password here.
-  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
-  const updated = await Category.findByIdAndUpdate(id, category, { new: true });
-
-  return updated;
-};
-
-const deleteCategory = async (id: string) => {
-  const deleted = await Category.findByIdAndUpdate(
-    id,
-    { isDeleted: true },
-    { new: true },
+const updateCategory = async (
+  userId: string,
+  ctgId: string,
+  category: TCategory,
+) => {
+  const updatedCategory = await Category.findOneAndUpdate(
+    { _id: ctgId, user: userId },
+    category,
+    { new: true, runValidators: true },
   );
 
-  return deleted;
+  if (!updatedCategory) {
+    throw new AppError(
+      httpStatus.NOT_FOUND,
+      "Category not found or user unauthorized to update this category.",
+    );
+  }
+
+  return updatedCategory;
+};
+
+const deleteCategory = async (userId: string, ctgId: string) => {
+  const deletedCategory = await Category.findOneAndDelete({
+    _id: ctgId,
+    user: userId,
+  });
+
+  if (!deletedCategory) {
+    throw new AppError(
+      httpStatus.NOT_FOUND,
+      "Category not found or user unauthorized to delete this category.",
+    );
+  }
+
+  return deletedCategory;
 };
 
 const CategoryServices = {
   createCategory,
-  toggleCategoryStatus,
-  getCategory,
   getCategories,
   updateCategory,
   deleteCategory,
