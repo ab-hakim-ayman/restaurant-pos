@@ -1,82 +1,82 @@
-import { Request, RequestHandler, Response } from 'express';
-import httpStatus from 'http-status';
-import catchAsync from '../../utils/catchAsync';
-import sendResponse from '../../utils/sendResponse';
-import CategoryServices from './category.services';
+import { Request, RequestHandler, Response } from "express";
+import httpStatus from "http-status";
+import catchAsync from "../../utils/catchAsync";
+import sendResponse from "../../utils/sendResponse";
+import CategoryServices from "./category.services";
 
-const createCategory: RequestHandler = catchAsync(async (req: Request, res: Response) => {
-	const result = await CategoryServices.createCategory(req.body);
+const createCategory: RequestHandler = catchAsync(
+  async (req: Request, res: Response) => {
+    const { title } = req.body;
+    const userId = req.userData?._id;
+    const result = await CategoryServices.createCategory({
+      title,
+      user: userId,
+    });
 
-	sendResponse(res, {
-		statusCode: httpStatus.OK,
-		success: true,
-		message: 'Category created successfully!',
-		data: result
-	});
-});
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: "Category created successfully!",
+      data: result,
+    });
+  },
+);
 
-const toggleCategoryStatus: RequestHandler = catchAsync(async (req: Request, res: Response) => {
-	const result = await CategoryServices.toggleCategoryStatus(req.params.id);
+const getCategories: RequestHandler = catchAsync(
+  async (req: Request, res: Response) => {
+    const userId = req.userData?._id;
+    const searchQuery: any = req.query?.query;
 
-	sendResponse(res, {
-		statusCode: httpStatus.OK,
-		success: true,
-		message: 'Category status updated successfully!',
-		data: result
-	});
-});
+    const result = await CategoryServices.getCategories(userId, searchQuery);
 
-const getCategory: RequestHandler = catchAsync(async (req: Request, res: Response) => {
-	const result = await CategoryServices.getCategory(req.params.id);
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: "Categories retrieved successfully!",
+      data: result,
+    });
+  },
+);
 
-	sendResponse(res, {
-		statusCode: httpStatus.OK,
-		success: true,
-		message: 'Category retrieved successfully!',
-		data: result
-	});
-});
+const updateCategory: RequestHandler = catchAsync(
+  async (req: Request, res: Response) => {
+    const userId = req.userData?._id;
+    const ctgId = req.params.id;
+    const result = await CategoryServices.updateCategory(
+      userId,
+      ctgId,
+      req.body,
+    );
 
-const getCategories: RequestHandler = catchAsync(async (req: Request, res: Response) => {
-	const result = await CategoryServices.getCategories();
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: "Category updated successfully!",
+      data: result,
+    });
+  },
+);
 
-	sendResponse(res, {
-		statusCode: httpStatus.OK,
-		success: true,
-		message: 'Categories retrieved successfully!',
-		data: result
-	});
-});
+const deleteCategory: RequestHandler = catchAsync(
+  async (req: Request, res: Response) => {
+    const userId = req.userData?._id;
+    const ctgId = req.params.id;
+    const result = await CategoryServices.deleteCategory(userId, ctgId);
 
-const updateCategory: RequestHandler = catchAsync(async (req: Request, res: Response) => {
-	const result = await CategoryServices.updateCategory(req.body?._id, req.body);
-
-	sendResponse(res, {
-		statusCode: httpStatus.OK,
-		success: true,
-		message: 'Category updated successfully!',
-		data: result
-	});
-});
-
-const deleteCategory: RequestHandler = catchAsync(async (req: Request, res: Response) => {
-	const result = await CategoryServices.deleteCategory(req.params.id);
-
-	sendResponse(res, {
-		statusCode: httpStatus.OK,
-		success: true,
-		message: 'Category deleted successfully!',
-		data: result
-	});
-});
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: "Category deleted successfully!",
+      data: result,
+    });
+  },
+);
 
 const CategoryControllers = {
-	createCategory,
-	toggleCategoryStatus,
-	getCategory,
-	getCategories,
-	updateCategory,
-	deleteCategory
+  createCategory,
+  getCategories,
+  updateCategory,
+  deleteCategory,
 };
 
 export default CategoryControllers;

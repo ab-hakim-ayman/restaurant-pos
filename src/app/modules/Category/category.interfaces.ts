@@ -1,15 +1,14 @@
 /* eslint-disable no-unused-vars */
-import { Model } from 'mongoose';
+import { Date, Model, Types } from "mongoose";
 
 export interface TCategory {
-	_id?: string;
-	category_name: string;
-	status?: 'active' | 'blocked';
-	role: 'user';
-	isDeleted?: boolean;
+  _id?: string;
+  user: Types.ObjectId;
+  title: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export interface CategoryModel extends Model<TCategory> {
-	isCategoryExists(id: string): Promise<TCategory | null>;
-	findCategoryByName(category_name: string): Promise<TCategory | null>;
+  isCategoryExists(id: string): Promise<TCategory | null>;
 }
