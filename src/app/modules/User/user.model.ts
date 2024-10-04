@@ -1,20 +1,23 @@
 import bcrypt from "bcrypt";
 import { Schema, model } from "mongoose";
-import { UserStatusArray } from "./user.constant";
+import { UserStatus, UserStatusArray } from "./user.constant";
 import { TLogo, TUser, UserModel } from "./user.interfaces";
 
-const LogoSchema = new Schema<TLogo>({
-  url: {
-    type: String,
-    required: [true, "Logo URL is required!"],
+const LogoSchema = new Schema<TLogo>(
+  {
+    url: {
+      type: String,
+      required: [true, "Logo URL is required!"],
+    },
+    public_id: {
+      type: String,
+      required: [true, "Logo public ID is required!"],
+    },
   },
-  public_id: {
-    type: String,
-    required: [true, "Logo public ID is required!"],
+  {
+    _id: false,
   },
-},{
-  _id: false
-});
+);
 
 const userSchema = new Schema<TUser, UserModel>(
   {
@@ -48,7 +51,8 @@ const userSchema = new Schema<TUser, UserModel>(
     status: {
       type: String,
       enum: UserStatusArray,
-      default: "pending",
+      // TODO: change the default status to "pending" in production
+      default: UserStatus.Approved,
     },
     isDeleted: {
       type: Boolean,

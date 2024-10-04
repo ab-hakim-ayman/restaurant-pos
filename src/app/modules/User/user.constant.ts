@@ -1,5 +1,3 @@
-
-
 export const UserStatus = {
   Pending: "pending",
   Approved: "approved",

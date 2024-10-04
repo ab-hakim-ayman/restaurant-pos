@@ -12,9 +12,7 @@ router.post(
   UserControllers.registerUser,
 );
 
-router.get("/",
-  //  AuthGuard("admin"),
-    UserControllers.getUsers);
+router.get("/", AuthGuard("admin"), UserControllers.getUsers);
 
 router.get("/:id", UserControllers.getUser);
 

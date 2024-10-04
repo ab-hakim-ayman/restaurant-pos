@@ -9,17 +9,13 @@ const registerUser = async (user: TUser) => {
 
 const changeUserStatus = async (id: string, status: string) => {
   const user = await User.isUserExists(id);
-
   if (!user) {
     throw new Error("User not found");
   }
-
   const isStatusValid = Object.values(UserStatusArray).includes(status);
-
   if (!isStatusValid) {
     throw new Error("Invalid user status");
   }
-
   const updatedUser = await User.findByIdAndUpdate(
     id,
     { status },
@@ -34,11 +30,11 @@ const getUser = async (id: string) => {
   return user;
 };
 
-const getUsers = async (searchQuery:Record<string, unknown>) => {
+const getUsers = async (searchQuery: Record<string, unknown>) => {
   const searchFields = ["name", "email", "phone", "address", "status"];
   const { search, status } = searchQuery;
 
-  const filterQuery:Record<string, unknown> = {};
+  const filterQuery: Record<string, unknown> = {};
 
   if (status) {
     filterQuery.status = status;

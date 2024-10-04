@@ -18,15 +18,19 @@ const registerUserValidation = z.object({
     address: z.string({
       required_error: "Address is required!",
     }),
-    logo: z.object({
-      url: z.string().url({
-        message: "Invalid URL!",
-      }),
-      public_id: z.string(),
-    },{
-      required_error: "Logo is required!",
-      invalid_type_error: "Logo must be an object with 'url' and 'public_id' keys!"
-    }),
+    logo: z.object(
+      {
+        url: z.string().url({
+          message: "Invalid URL!",
+        }),
+        public_id: z.string(),
+      },
+      {
+        required_error: "Logo is required!",
+        invalid_type_error:
+          "Logo must be an object with 'url' and 'public_id' keys!",
+      },
+    ),
     password: z.string().refine(
       (data) => {
         // password must contain at least 8 characters, 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character

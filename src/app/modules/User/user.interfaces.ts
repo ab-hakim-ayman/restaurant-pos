@@ -10,10 +10,10 @@ export enum UserStatus {
 }
 
 export type TLogo = {
-    url: string;
-    public_id: string
-  }
-  
+  url: string;
+  public_id: string;
+};
+
 export interface TUser {
   _id?: string;
   company_name: string;
