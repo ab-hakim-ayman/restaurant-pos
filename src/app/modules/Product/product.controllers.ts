@@ -1,15 +1,18 @@
 import { Request, RequestHandler, Response } from "express";
-import httpStatus from "http-status";
 import catchAsync from "../../utils/catchAsync";
 import sendResponse from "../../utils/sendResponse";
-import ProductServices from "./product.services";
+import httpStatus from "http-status";
+import { ProductServices } from "./product.services";
 
 const createProduct: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
-    const result = await ProductServices.createProduct(req.body);
+    const userId = req.userData?._id;
+    const productData = req.body;
+
+    const result = await ProductServices.createProduct(userId, productData);
 
     sendResponse(res, {
-      statusCode: httpStatus.OK,
+      statusCode: httpStatus.CREATED,
       success: true,
       message: "Product created successfully!",
       data: result,
@@ -17,53 +20,46 @@ const createProduct: RequestHandler = catchAsync(
   },
 );
 
-const toggleProductStatus: RequestHandler = catchAsync(
+const updateProduct: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
-    const result = await ProductServices.toggleProductStatus(req.params.id);
+    const userId = req.userData?._id;
+    const productId = req.params.id;
+    const updateData = req.body;
+
+    const modification = {
+      variants: req.body.variantsToAdd,
+      removeVariants: req.body.variantsToRemove,
+      addons: req.body.addonsToAdd,
+      removeAddons: req.body.addonsToRemove,
+    };
+
+    const updatedProduct = await ProductServices.updateProduct(
+      userId,
+      productId,
+      updateData,
+      modification,
+    );
 
     sendResponse(res, {
       statusCode: httpStatus.OK,
       success: true,
-      message: "Product status updated successfully!",
-      data: result,
-    });
-  },
-);
-
-const getProduct: RequestHandler = catchAsync(
-  async (req: Request, res: Response) => {
-    const result = await ProductServices.getProduct(req.params.id);
-
-    sendResponse(res, {
-      statusCode: httpStatus.OK,
-      success: true,
-      message: "Product retrieved successfully!",
-      data: result,
+      message: "Product updated successfully!",
+      data: updatedProduct,
     });
   },
 );
 
 const getProducts: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
-    const result = await ProductServices.getProducts();
+    const userId = req.userData?._id;
+    const searchQuery = req.query?.search as string | undefined;
+
+    const result = await ProductServices.getProducts(userId, searchQuery);
 
     sendResponse(res, {
       statusCode: httpStatus.OK,
       success: true,
-      message: "Product retrieved successfully!",
-      data: result,
-    });
-  },
-);
-
-const updateProduct: RequestHandler = catchAsync(
-  async (req: Request, res: Response) => {
-    const result = await ProductServices.updateProduct(req.body?._id, req.body);
-
-    sendResponse(res, {
-      statusCode: httpStatus.OK,
-      success: true,
-      message: "Product updated successfully!",
+      message: "Products retrieved successfully!",
       data: result,
     });
   },
@@ -71,7 +67,10 @@ const updateProduct: RequestHandler = catchAsync(
 
 const deleteProduct: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
-    const result = await ProductServices.deleteProduct(req.params.id);
+    const userId = req.userData?._id;
+    const productId = req.params.id;
+
+    const result = await ProductServices.deleteProduct(userId, productId);
 
     sendResponse(res, {
       statusCode: httpStatus.OK,
@@ -82,13 +81,9 @@ const deleteProduct: RequestHandler = catchAsync(
   },
 );
 
-const ProductControllers = {
+export const ProductControllers = {
   createProduct,
-  toggleProductStatus,
-  getProduct,
-  getProducts,
   updateProduct,
+  getProducts,
   deleteProduct,
 };
-
-export default ProductControllers;

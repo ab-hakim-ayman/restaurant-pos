@@ -9,10 +9,11 @@ const createCategory = async (category: TCategory) => {
 };
 
 const getCategories = async (userId: string, searchQuery: string = "") => {
-  const queryCondition = {
-    user: userId,
-    title: { $regex: searchQuery, $options: "i" },
-  };
+  const queryCondition: any = { user: userId };
+
+  if (searchQuery.trim()) {
+    queryCondition.title = { $regex: searchQuery.trim(), $options: "i" };
+  }
 
   const categories = await Category.find(queryCondition);
 

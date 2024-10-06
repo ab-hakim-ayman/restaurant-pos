@@ -1,12 +1,25 @@
 /* eslint-disable no-unused-vars */
-import { Model } from "mongoose";
+import { Model, Types } from "mongoose";
 
 export interface TProduct {
   _id?: string;
-  product_name: string;
-  status?: "active" | "blocked";
-  role: "user";
-  isDeleted?: boolean;
+  name: string;
+  category: Types.ObjectId;
+  price: number;
+  stock: number;
+  image: {
+    public_id: string;
+    url: string;
+  };
+  variants?: Array<{
+    _id: string;
+    title: string;
+    price: number;
+  }>;
+  addons?: Array<{
+    _id: Types.ObjectId;
+  }>;
+  user?: Types.ObjectId;
 }
 
 export interface ProductModel extends Model<TProduct> {

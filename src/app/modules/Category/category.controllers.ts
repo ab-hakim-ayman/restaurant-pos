@@ -25,12 +25,9 @@ const createCategory: RequestHandler = catchAsync(
 const getCategories: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
     const userId = req.userData?._id;
-    const searchQuery = req.query?.search;
+    const searchQuery = (req.query?.search as string) || "";
 
-    const result = await CategoryServices.getCategories(
-      userId,
-      searchQuery as string,
-    );
+    const result = await CategoryServices.getCategories(userId, searchQuery);
 
     sendResponse(res, {
       statusCode: httpStatus.OK,
