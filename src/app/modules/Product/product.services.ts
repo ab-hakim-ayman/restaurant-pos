@@ -140,7 +140,7 @@ const getProducts = async (userId: string, searchQuery: string = "") => {
     name: { $regex: searchQuery || "", $options: "i" },
   };
 
-  const products = await Product.find(queryCondition);
+  const products = await Product.find(queryCondition).populate("addons");
   return products;
 };
 
