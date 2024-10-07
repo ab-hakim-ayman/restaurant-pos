@@ -135,12 +135,22 @@ const updateProduct = async (
 };
 
 const getProducts = async (userId: string, searchQuery: string = "") => {
-  const queryCondition = {
-    user: userId,
-    name: { $regex: searchQuery || "", $options: "i" },
-  };
+  const queryCondition = { user: userId };
 
-  const products = await Product.find(queryCondition).populate("addons");
+  if (searchQuery.trim()) {
+    const products = await Product.find(queryCondition)
+      .populate({
+        path: "category",
+        match: { title: { $regex: new RegExp(searchQuery.trim(), "i") } },
+      })
+      .populate("addons");
+
+    return products.filter((product) => product.category);
+  }
+
+  const products = await Product.find(queryCondition)
+    .populate("addons")
+    .populate("category");
   return products;
 };
 
